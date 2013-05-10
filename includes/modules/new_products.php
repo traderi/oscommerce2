@@ -22,34 +22,30 @@
     $counter = 0;
     $col = 0;
 
-    $new_prods_content = '<table border="0" width="100%" cellspacing="0" cellpadding="2">';
+    $new_prods_content = '';
     while ($new_products = osc_db_fetch_array($new_products_query)) {
       $counter++;
 
       if ($col === 0) {
-        $new_prods_content .= '<tr>';
+        $new_prods_content .= '        <div class="row-fluid text-center">' . "\n";
       }
 
-      $new_prods_content .= '<td width="33%" align="center" valign="top"><a href="' . osc_href_link('products', 'id=' . $new_products['products_id']) . '">' . osc_image(DIR_WS_IMAGES . $new_products['products_image'], $new_products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br /><a href="' . osc_href_link('products', 'id=' . $new_products['products_id']) . '">' . $new_products['products_name'] . '</a><br />' . $currencies->display_price($new_products['products_price'], osc_get_tax_rate($new_products['products_tax_class_id'])) . '</td>';
+      $new_prods_content .= '          <div class="span4"><a href="' . osc_href_link('products', 'id=' . $new_products['products_id']) . '">' . osc_image(DIR_WS_IMAGES . $new_products['products_image'], $new_products['products_name'], SMALL_IMAGE_WIDTH, SMALL_IMAGE_HEIGHT) . '</a><br /><a href="' . osc_href_link('products', 'id=' . $new_products['products_id']) . '">' . $new_products['products_name'] . '</a><br />' . $currencies->display_price($new_products['products_price'], osc_get_tax_rate($new_products['products_tax_class_id'])) . '</div>' . "\n";
 
       $col ++;
 
       if (($col > 2) || ($counter == $num_new_products)) {
-        $new_prods_content .= '</tr>';
+        $new_prods_content .= '        </div>' . "\n";
 
         $col = 0;
       }
     }
-
-    $new_prods_content .= '</table>';
 ?>
 
-  <h2><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h2>
-
-  <div class="contentText">
-    <?php echo $new_prods_content; ?>
-  </div>
+        <h2><?php echo sprintf(TABLE_HEADING_NEW_PRODUCTS, strftime('%B')); ?></h2>
 
 <?php
+    echo $new_prods_content;
+
   }
 ?>

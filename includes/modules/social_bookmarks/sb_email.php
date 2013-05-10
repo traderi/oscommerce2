@@ -30,7 +30,7 @@
     }
 
     function getOutput() {
-      return '<a href="' . osc_href_link('products', 'tell_a_friend&id=' . $_GET['id']) . '"><img src="' . DIR_WS_IMAGES . 'social_bookmarks/' . $this->icon . '" border="0" title="' . osc_output_string_protected($this->public_title) . '" alt="' . osc_output_string_protected($this->public_title) . '" /></a>';
+      return '<a href="' . osc_href_link('products', 'tell_a_friend&id=' . $_GET['id']) . '"><img src="' . DIR_WS_IMAGES . 'social_bookmarks/' . $this->icon . '" title="' . osc_output_string_protected($this->public_title) . '" alt="' . osc_output_string_protected($this->public_title) . '" /></a>';
     }
 
     function isEnabled() {

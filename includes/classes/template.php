@@ -1,7 +1,7 @@
 <?php
 /**
  * osCommerce Online Merchant
- * 
+ *
  * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
  * @license GNU General Public License; http://www.oscommerce.com/gpllicense.txt
  */
@@ -65,6 +65,12 @@
     function getBlocks($group) {
       if ($this->hasBlocks($group)) {
         return implode("\n", $this->_blocks[$group]);
+      }
+    }
+
+    function getBlocksArray($group) {
+      if ($this->hasBlocks($group)) {
+        return $this->_blocks[$group];
       }
     }
 

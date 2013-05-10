@@ -55,7 +55,7 @@
 
         if ( !empty($social_bookmarks) ) {
           $data = '<li class="nav-header">' . MODULE_BOXES_PRODUCT_SOCIAL_BOOKMARKS_BOX_TITLE . '</li>' .
-                  '<li style="text-align: center;">' . implode(' ', $social_bookmarks) . '</li>';
+                  '<li class="text-center">' . implode(' ', $social_bookmarks) . '</li>';
 
           $OSCOM_Template->addBlock($data, $this->group);
         }

@@ -67,12 +67,12 @@
       $output = '<a href="http://pinterest.com/pin/create/button/?';
 
       foreach ($params as $key => $value) {
-        $output .= $key . '=' . urlencode($value) . '&';
+        $output .= $key . '=' . urlencode($value) . '&amp;';
       }
 
-      $output = substr($output, 0, -1); //remove last & from the url
+      $output = substr($output, 0, -5); //remove last & from the url
 
-      $output .= '" class="pin-it-button" count-layout="' . strtolower(MODULE_SOCIAL_BOOKMARKS_PINTEREST_BUTTON_COUNT_POSITION) . '"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="' . $this->public_title . '" /></a>';
+      $output .= '" class="pin-it-button" data-count-layout="' . strtolower(MODULE_SOCIAL_BOOKMARKS_PINTEREST_BUTTON_COUNT_POSITION) . '"><img src="//assets.pinterest.com/images/PinExt.png" alt="" title="' . $this->public_title . '" /></a>';
 
       return $output;
     }

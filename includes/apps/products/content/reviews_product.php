@@ -14,8 +14,8 @@
 ?>
 
 <div>
-  <h1 style="float: right;"><?php echo $products_price; ?></h1>
-  <h1><?php echo $products_name; ?></h1>
+  <h1 style="float: right;"><span class="pull-right"><?php echo $products_price; ?></span><?php echo $products_name; ?></h1>
+
 </div>
 
 <div class="contentContainer">

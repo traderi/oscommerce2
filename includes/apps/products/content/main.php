@@ -5,9 +5,7 @@
  * @copyright Copyright (c) 2013 osCommerce; http://www.oscommerce.com
  * @license GNU General Public License; http://www.oscommerce.com/gpllicense.txt
  */
-?>
 
-<?php
     $product_info_query = osc_db_query("select p.products_id, pd.products_name, pd.products_description, p.products_model, p.products_quantity, p.products_image, pd.products_url, p.products_price, p.products_tax_class_id, p.products_date_added, p.products_date_available, p.manufacturers_id from " . TABLE_PRODUCTS . " p, " . TABLE_PRODUCTS_DESCRIPTION . " pd where p.products_status = '1' and p.products_id = '" . (int)$_GET['id'] . "' and pd.products_id = p.products_id and pd.language_id = '" . (int)$_SESSION['languages_id'] . "'");
     $product_info = osc_db_fetch_array($product_info_query);
 
@@ -36,17 +34,16 @@
     }
 ?>
 
-<?php echo osc_draw_form('cart_quantity', osc_href_link('cart', 'add&cPath=' . $cPath), 'post', null, true); ?>
+      <?php echo osc_draw_form('cart_quantity', osc_href_link('cart', 'add&cPath=' . $cPath), 'post', null, true); ?>
 
-<div itemscope itemtype="http://schema.org/Product">
+        <div itemscope itemtype="http://schema.org/Product">
 
-<div>
-  <h1 style="float: right;" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><?php echo $products_price; ?></h1>
-  <h1 ><?php echo $products_name; ?></h1>
-</div>
+          <div>
+            <h1><span style="float: right;" itemprop="offers" itemscope itemtype="http://schema.org/Offer"><?php echo $products_price; ?></span><?php echo $products_name; ?></h1>
+          </div>
 
-<div class="contentContainer">
-  <div class="contentText">
+          <div class="contentContainer">
+            <div class="contentText">
 
 <?php
     if (osc_not_null($product_info['products_image'])) {
@@ -55,15 +52,15 @@
       if (osc_db_num_rows($pi_query) > 0) {
 ?>
 
-    <div id="piGal" style="float: right;">
-      <ul>
+              <div id="piGal" style="float: right;">
+                <ul>
 
 <?php
         $pi_counter = 0;
         while ($pi = osc_db_fetch_array($pi_query)) {
           $pi_counter++;
 
-          $pi_entry = '        <li><a href="';
+          $pi_entry = '                <li><a href="';
 
           if (osc_not_null($pi['htmlcontent'])) {
             $pi_entry .= '#piGalimg_' . $pi_counter;
@@ -71,19 +68,20 @@
             $pi_entry .= HTTP_SERVER . DIR_WS_HTTP_CATALOG . DIR_WS_IMAGES . $pi['image'];
           }
 
-          $pi_entry .= '" target="_blank" rel="fancybox">' . osc_image(DIR_WS_IMAGES . $pi['image'], '', '', '', ($pi_counter ==1) ? 'itemprop="image"' : '') . '</a>';
+          $pi_entry .= '" target="_blank" data-fancybox-group="fancybox">' . osc_image(DIR_WS_IMAGES . $pi['image'], '', '', '', ($pi_counter ==1) ? 'itemprop="image"' : '') . '</a>';
 
           if (osc_not_null($pi['htmlcontent'])) {
             $pi_entry .= '<div style="display: none;"><div id="piGalimg_' . $pi_counter . '">' . $pi['htmlcontent'] . '</div></div>';
           }
 
-          $pi_entry .= '</li>';
+          $pi_entry .= '</li>' . "\n";
 
           echo $pi_entry;
         }
 ?>
-      </ul>
-    </div>
+
+                </ul>
+              </div>
 
 <script>
 $('#piGal ul').bxGallery({
@@ -99,16 +97,17 @@ $('#piGal ul').bxGallery({
       } else {
 ?>
 
-    <div id="piGal" style="float: right;">
-      <?php echo '<a href="' . HTTP_SERVER . DIR_WS_HTTP_CATALOG . DIR_WS_IMAGES . $product_info['products_image'] . '" target="_blank" rel="fancybox">' . osc_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], null, null, 'hspace="5" vspace="5" itemprop="image"') . '</a>'; ?>
-    </div>
+              <div id="piGal" style="float: right;">
+                <?php echo '<a href="' . HTTP_SERVER . DIR_WS_HTTP_CATALOG . DIR_WS_IMAGES . $product_info['products_image'] . '" target="_blank" data-fancybox-group="fancybox">' . osc_image(DIR_WS_IMAGES . $product_info['products_image'], $product_info['products_name'], null, null, 'style="padding:5px" itemprop="image"') . '</a>'; ?>
+
+              </div>
 
 <?php
       }
 ?>
 
 <script>
-$("#piGal a[rel^='fancybox']").fancybox({
+$("#piGal a[data-fancybox-group^='fancybox']").fancybox({
   cyclic: true
 });
 </script>
@@ -117,9 +116,10 @@ $("#piGal a[rel^='fancybox']").fancybox({
     }
 ?>
 
-<div itemprop="description">
-  <?php echo $product_info['products_description']; ?>
-</div>
+              <div itemprop="description">
+                <?php echo $product_info['products_description']; ?>
+
+              </div>
 
 <?php
     $products_attributes_query = osc_db_query("select count(*) as total from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$_GET['id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$_SESSION['languages_id'] . "'");
@@ -127,9 +127,9 @@ $("#piGal a[rel^='fancybox']").fancybox({
     if ($products_attributes['total'] > 0) {
 ?>
 
-    <p><?php echo TEXT_PRODUCT_OPTIONS; ?></p>
+              <p><?php echo TEXT_PRODUCT_OPTIONS; ?></p>
 
-    <p>
+              <p>
 <?php
       $products_options_name_query = osc_db_query("select distinct popt.products_options_id, popt.products_options_name from " . TABLE_PRODUCTS_OPTIONS . " popt, " . TABLE_PRODUCTS_ATTRIBUTES . " patrib where patrib.products_id='" . (int)$_GET['id'] . "' and patrib.options_id = popt.products_options_id and popt.language_id = '" . (int)$_SESSION['languages_id'] . "' order by popt.products_options_name");
       while ($products_options_name = osc_db_fetch_array($products_options_name_query)) {
@@ -148,29 +148,29 @@ $("#piGal a[rel^='fancybox']").fancybox({
           $selected_attribute = false;
         }
 ?>
-      <strong><?php echo $products_options_name['products_options_name'] . ':'; ?></strong><br /><?php echo osc_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute); ?><br />
+                <strong><?php echo $products_options_name['products_options_name'] . ':'; ?></strong><br /><?php echo osc_draw_pull_down_menu('id[' . $products_options_name['products_options_id'] . ']', $products_options_array, $selected_attribute); ?><br />
 <?php
       }
 ?>
-    </p>
+              </p>
 
 <?php
     }
 ?>
 
-    <div style="clear: both;"></div>
+              <div style="clear: both;"></div>
 
 <?php
     if ($product_info['products_date_available'] > date('Y-m-d H:i:s')) {
 ?>
 
-    <p style="text-align: center;"><?php echo sprintf(TEXT_DATE_AVAILABLE, osc_date_long($product_info['products_date_available'])); ?></p>
+              <p style="text-align: center;"><?php echo sprintf(TEXT_DATE_AVAILABLE, osc_date_long($product_info['products_date_available'])); ?></p>
 
 <?php
     }
 ?>
 
-  </div>
+            </div>
 
 <?php
     $reviews_query = osc_db_query("select count(*) as count, avg(reviews_rating) as avgrating from " . TABLE_REVIEWS . " r, " . TABLE_REVIEWS_DESCRIPTION . " rd where r.products_id = '" . (int)$_GET['id'] . "' and r.reviews_id = rd.reviews_id and rd.languages_id = '" . (int)$_SESSION['languages_id'] . "' and reviews_status = 1");
@@ -181,11 +181,11 @@ $("#piGal a[rel^='fancybox']").fancybox({
     }
 ?>
 
-  <div class="buttonSet">
-    <span class="buttonAction"><?php echo osc_draw_hidden_field('products_id', $product_info['products_id']) . osc_draw_button(IMAGE_BUTTON_IN_CART, 'shopping-cart', null, 'success'); ?></span>
+            <div class="buttonSet">
+              <span class="buttonAction"><?php echo osc_draw_hidden_field('products_id', $product_info['products_id']) . osc_draw_button(IMAGE_BUTTON_IN_CART, 'shopping-cart', null, 'success'); ?></span>
+              <?php echo osc_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'comment', osc_href_link('products', 'reviews&id=' . $_GET['id']), 'info'); ?>
 
-    <?php echo osc_draw_button(IMAGE_BUTTON_REVIEWS . (($reviews['count'] > 0) ? ' (' . $reviews['count'] . ')' : ''), 'comment', osc_href_link('products', 'reviews&id=' . $_GET['id']), 'info'); ?>
-  </div>
+            </div>
 
 <?php
     if ((USE_CACHE == 'true') && empty($SID)) {
@@ -203,8 +203,8 @@ $("#piGal a[rel^='fancybox']").fancybox({
     }
 ?>
 
-</div>
+          </div>
 
-</div>
+        </div>
 
-</form>
+      </form>
